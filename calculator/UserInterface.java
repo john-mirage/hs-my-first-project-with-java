@@ -24,9 +24,9 @@ public class UserInterface {
         while (true) {
             try {
                 String input = scanner.nextLine();
-                int staffExpenses = convertExpenseToInteger(input, typeOfExpense);
-                validateExpense(staffExpenses, typeOfExpense);
-                return staffExpenses;
+                int expenses = convertExpenseToInteger(input, typeOfExpense);
+                validateExpense(expenses, typeOfExpense);
+                return expenses;
             } catch (IllegalArgumentException e) {
                 System.out.print(e.getMessage());
             }
