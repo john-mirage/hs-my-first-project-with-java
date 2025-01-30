@@ -5,29 +5,32 @@ import java.util.Scanner;
 public class UserInterface {
     private static final Scanner scanner = new Scanner(System.in);
 
-    private static int askForPositiveNumber(String subject) {
-        while (true) {
-            try {
-                int staffExpenses = Integer.parseInt(scanner.nextLine());
-                if (staffExpenses >= 0) {
-                    return staffExpenses;
-                } else {
-                    System.out.printf("%s must be a positive number\n", subject);
-                }
-            } catch (NumberFormatException e) {
-                System.out.printf("%s must be a number\n", subject);
-            }
+    private static int convertExpenseToInteger(String expenseInput, String typeOfExpense) {
+        try {
+            return Integer.parseInt(expenseInput);
+        } catch (NumberFormatException e) {
+            throw new IllegalArgumentException("%s expenses must be a number: ".formatted(typeOfExpense));
         }
     }
 
-    public static int askForStaffExpenses() {
-        System.out.println("Staff expenses:");
-        return askForPositiveNumber("Staff expenses");
+    private static void validateExpense(int expense, String typeOfExpense) {
+        if (expense < 0) {
+            throw new IllegalArgumentException("%s expenses must be a positive number: ".formatted(typeOfExpense));
+        }
     }
 
-    public static int askForOtherExpenses() {
-        System.out.println("Other expenses:");
-        return askForPositiveNumber("Other expenses");
+    public static int inputExpense(String typeOfExpense) {
+        System.out.printf("%s expenses: ", typeOfExpense);
+        while (true) {
+            try {
+                String input = scanner.nextLine();
+                int staffExpenses = convertExpenseToInteger(input, typeOfExpense);
+                validateExpense(staffExpenses, typeOfExpense);
+                return staffExpenses;
+            } catch (IllegalArgumentException e) {
+                System.out.print(e.getMessage());
+            }
+        }
     }
 
     public static void close() {
